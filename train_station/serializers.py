@@ -93,3 +93,23 @@ class TrainImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Train
         fields = ("id", "image")
+
+
+class RouteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Route
+        fields = ("id", "distance", "source", "destination")
+
+
+class RouteListSerializer(RouteSerializer):
+    source_name = serializers.CharField(source="station.name", read_only=True)
+    destination_name = serializers.CharField(source="station.name", read_only=True)
+
+    class Meta:
+        model = Route
+        fields = ("id", "distance", "source_name", "destination_name")
+
+
+class RouteDetailSerializer(RouteSerializer):
+    source = StationSerializer(many=False, read_only=True)
+    destination = StationSerializer(many=False, read_only=True)
