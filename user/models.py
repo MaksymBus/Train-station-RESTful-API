@@ -21,7 +21,6 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-# Create your models here.
     def create_user(self, email, password=None, **extra_fields):
         """Create and save a regular User with the given email and password."""
         extra_fields.setdefault("is_staff", False)
@@ -40,3 +39,12 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+
+class User(AbstractUser):
+    username = None
+    email = models.EmailField(_("email address"), unique=True)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()
