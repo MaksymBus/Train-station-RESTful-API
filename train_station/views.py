@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db.models import F, Count
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter
@@ -195,6 +197,8 @@ class JourneyViewSet(viewsets.ModelViewSet):
         train_id_str = self.request.query_params.get("train")
         route_id_str = self.request.query_params.get("route")
         crew = self.request.query_params.get("crew")
+        departure_time = self.request.query_params.get("departure_time")
+        arrival_time = self.request.query_params.get("arrival_time")
 
         queryset = self.queryset
 
@@ -207,6 +211,14 @@ class JourneyViewSet(viewsets.ModelViewSet):
 
         if route_id_str:
             queryset = queryset.filter(route_id=int(route_id_str))
+
+        if departure_time:
+            departure_time = datetime.strptime(departure_time, "%Y-%m-%d").date()
+            queryset = queryset.filter(departure_time__date=departure_time)
+
+        if arrival_time:
+            arrival_time = datetime.strptime(arrival_time, "%Y-%m-%d").date()
+            queryset = queryset.filter(arrival_time__date=arrival_time)
 
         return queryset
 
@@ -235,6 +247,22 @@ class JourneyViewSet(viewsets.ModelViewSet):
                 "route",
                 type=OpenApiTypes.INT,
                 description="Filter by route id (ex. ?route=2)",
+            ),
+            OpenApiParameter(
+                "departure_time",
+                type=OpenApiTypes.DATE,
+                description=(
+                        "Filter by departure_time of Journey "
+                        "(ex. ?departure_time=2022-10-23)"
+                ),
+            ),
+            OpenApiParameter(
+                "arrival_time",
+                type=OpenApiTypes.DATE,
+                description=(
+                        "Filter by arrival_time of Journey "
+                        "(ex. ?arrival_time=2022-10-24)"
+                ),
             ),
         ]
     )
