@@ -3,7 +3,7 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
@@ -22,7 +22,7 @@ from train_station.serializers import (
     CrewSerializer,
     StationSerializer, TrainSerializer, TrainListSerializer, TrainDetailSerializer, TrainImageSerializer,
     RouteListSerializer, RouteDetailSerializer, RouteSerializer, JourneyListSerializer, JourneyDetailSerializer,
-    JourneySerializer,
+    JourneySerializer, OrderListSerializer, OrderSerializer,
 )
 
 
@@ -240,3 +240,28 @@ class JourneyViewSet(viewsets.ModelViewSet):
     )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
+
+
+class OrderViewSet(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    viewsets.GenericViewSet
+):
+    queryset = Order.objects.prefetch_related(
+        "tickets__journey__route",
+        "tickets__journey__train",
+        "tickets__journey__crew"
+    )
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return OrderListSerializer
+
+        return OrderSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
