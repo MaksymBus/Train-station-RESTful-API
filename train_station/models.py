@@ -75,18 +75,18 @@ class Station(models.Model):
 class Route(models.Model):
     source = models.ForeignKey(
         Station,
-        related_name="routes",
+        related_name="departing_routes",
         on_delete=models.CASCADE
     )
     destination = models.ForeignKey(
         Station,
-        related_name="routes",
+        related_name="arriving_routes",
         on_delete=models.CASCADE
     )
     distance = models.IntegerField()
 
     class Meta:
-        constrains = [
+        constraints = [
             models.UniqueConstraint(
                 fields=["source", "destination"],
                 name="unique_source_destination"
@@ -110,15 +110,25 @@ class Route(models.Model):
 
 
 class Journey(models.Model):
-    route = models.ForeignKey(Route, related_name="journeys", on_delete=models.CASCADE)
-    train = models.ForeignKey(Train, related_name="journeys", on_delete=models.CASCADE)
+    route = models.ForeignKey(
+        Route,
+        related_name="journeys",
+        on_delete=models.CASCADE
+    )
+    train = models.ForeignKey(
+        Train,
+        related_name="journeys",
+        on_delete=models.CASCADE
+    )
     crew = models.ManyToManyField(Crew, blank=True, related_name="journeys")
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
 
     def clean(self):
         if self.departure_time >= self.arrival_time:
-            raise ValidationError("Departure time can't be more or equal to arrival time")
+            raise ValidationError(
+                "Departure time can't be more or equal to arrival time"
+            )
 
     def save(
         self,
@@ -199,10 +209,10 @@ class Ticket(models.Model):
     def save(
         self,
         *args,
-        force_insert = False,
-        force_update = False,
-        using = None,
-        update_fields = None,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
     ):
         self.full_clean()
         return super(Ticket, self).save(
