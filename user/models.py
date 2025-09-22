@@ -40,16 +40,6 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     username = None
     email = models.EmailField(_("email address"), unique=True)
-    groups = models.ManyToManyField(
-        "auth.Group",
-        related_name="user_groups",
-        blank=True
-    )
-    user_permissions = models.ManyToManyField(
-        "auth.Permission",
-        related_name="user_permissions_set",
-        blank=True
-    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
