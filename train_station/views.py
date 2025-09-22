@@ -126,7 +126,7 @@ class TrainViewSet(
             OpenApiParameter(
                 "name",
                 type=OpenApiTypes.STR,
-                description="Filter by name of Train (ex. ?name=Intercity)"
+                description="Filter by name of Train (ex. ?name=Express)"
             ),
         ]
     )
@@ -263,7 +263,7 @@ class JourneyViewSet(viewsets.ModelViewSet):
                 type=OpenApiTypes.DATE,
                 description=(
                     "Filter by departure_time of Journey "
-                    "ex. ?departure_time=2022-10-23"
+                    "ex. ?departure_time=2025-09-23"
                 ),
             ),
             OpenApiParameter(
@@ -271,7 +271,7 @@ class JourneyViewSet(viewsets.ModelViewSet):
                 type=OpenApiTypes.DATE,
                 description=(
                     "Filter by arrival_time of Journey "
-                    "(ex. ?arrival_time=2022-10-24)"
+                    "(ex. ?arrival_time=2025-09-23)"
                 ),
             ),
         ]
