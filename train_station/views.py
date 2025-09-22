@@ -22,9 +22,19 @@ from train_station.models import (
 from train_station.serializers import (
     TrainTypeSerializer,
     CrewSerializer,
-    StationSerializer, TrainSerializer, TrainListSerializer, TrainDetailSerializer, TrainImageSerializer,
-    RouteListSerializer, RouteDetailSerializer, RouteSerializer, JourneyListSerializer, JourneyDetailSerializer,
-    JourneySerializer, OrderListSerializer, OrderSerializer,
+    StationSerializer,
+    TrainSerializer,
+    TrainListSerializer,
+    TrainDetailSerializer,
+    TrainImageSerializer,
+    RouteListSerializer,
+    RouteDetailSerializer,
+    RouteSerializer,
+    JourneyListSerializer,
+    JourneyDetailSerializer,
+    JourneySerializer,
+    OrderListSerializer,
+    OrderSerializer,
 )
 
 
@@ -82,10 +92,10 @@ class TrainViewSet(
             return TrainListSerializer
 
         if self.action == "retrieve":
-            return  TrainDetailSerializer
+            return TrainDetailSerializer
 
         if self.action == "upload_image":
-            return  TrainImageSerializer
+            return TrainImageSerializer
 
         return TrainSerializer
 
@@ -116,10 +126,7 @@ class TrainViewSet(
             OpenApiParameter(
                 "name",
                 type=OpenApiTypes.STR,
-                description=(
-                        "Filter by name of Train "
-                        "(ex. ?name=Intercity)"
-                ),
+                description="Filter by name of Train (ex. ?name=Intercity)"
             ),
         ]
     )
@@ -182,8 +189,8 @@ class JourneyViewSet(viewsets.ModelViewSet):
         .prefetch_related("crew")
         .annotate(
             tickets_available=(
-                    F("train__cargo_num") * F("train__places_in_cargo")
-                    - Count("tickets")
+                F("train__cargo_num") * F("train__places_in_cargo")
+                - Count("tickets")
             )
         )
     )
@@ -213,7 +220,10 @@ class JourneyViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(route_id=int(route_id_str))
 
         if departure_time:
-            departure_time = datetime.strptime(departure_time, "%Y-%m-%d").date()
+            departure_time = datetime.strptime(
+                departure_time,
+                "%Y-%m-%d"
+            ).date()
             queryset = queryset.filter(departure_time__date=departure_time)
 
         if arrival_time:
@@ -252,16 +262,16 @@ class JourneyViewSet(viewsets.ModelViewSet):
                 "departure_time",
                 type=OpenApiTypes.DATE,
                 description=(
-                        "Filter by departure_time of Journey "
-                        "(ex. ?departure_time=2022-10-23)"
+                    "Filter by departure_time of Journey "
+                    "ex. ?departure_time=2022-10-23"
                 ),
             ),
             OpenApiParameter(
                 "arrival_time",
                 type=OpenApiTypes.DATE,
                 description=(
-                        "Filter by arrival_time of Journey "
-                        "(ex. ?arrival_time=2022-10-24)"
+                    "Filter by arrival_time of Journey "
+                    "(ex. ?arrival_time=2022-10-24)"
                 ),
             ),
         ]
