@@ -20,17 +20,17 @@ urlpatterns = [
         name="manage"
     ),
     path(
-        "api/token/",
+        "token/",
         TokenObtainPairView.as_view(),
         name="token_obtain_pair"
     ),
     path(
-        "api/token/refresh/",
+        "token/refresh/",
         TokenRefreshView.as_view(),
         name="token_refresh"
     ),
     path(
-        "api/token/verify/",
+        "token/verify/",
         TokenVerifyView.as_view(),
         name="token_verify"
     ),
