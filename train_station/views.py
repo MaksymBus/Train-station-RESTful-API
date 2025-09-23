@@ -16,7 +16,6 @@ from train_station.models import (
     Train,
     Route,
     Station,
-    Ticket,
     Order
 )
 from train_station.serializers import (
