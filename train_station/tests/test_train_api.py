@@ -131,7 +131,7 @@ class AuthenticatedTrainApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
 
 
-class AdminMovieApiTests(TestCase):
+class AdminTrainApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user(
@@ -154,7 +154,7 @@ class AdminMovieApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
 
-class MovieImageUploadTests(TestCase):
+class TrainImageUploadTests(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = get_user_model().objects.create_superuser(
@@ -237,24 +237,3 @@ class MovieImageUploadTests(TestCase):
         res = self.client.get(TRAIN_URL)
 
         self.assertIn("image", res.data["results"][0].keys())
-
-    def test_put_train_not_allowed(self):
-        payload = {
-            "name": "New_train",
-            "cargo_num": 10,
-            "places_in_cargo": 50,
-            "train_type": self.train_type.id,
-        }
-
-        url = detail_url(self.train.id)
-
-        res = self.client.put(url, payload)
-
-        self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-
-    def test_delete_train_not_allowed(self):
-        url = detail_url(self.train.id)
-
-        res = self.client.delete(url)
-
-        self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)

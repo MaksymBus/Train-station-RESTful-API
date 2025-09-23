@@ -5,8 +5,8 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 
-from train_station.models import TrainType, Crew
-from train_station.serializers import TrainTypeSerializer, CrewSerializer
+from train_station.models import Crew
+from train_station.serializers import CrewSerializer
 
 CREW_URL = reverse("train_station:crew-list")
 

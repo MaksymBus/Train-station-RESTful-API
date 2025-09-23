@@ -21,7 +21,7 @@ class UnauthenticatedTrainTypeApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class AuthenticatedTrainApiTests(TestCase):
+class AuthenticatedTrainTypeApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user(
@@ -51,19 +51,17 @@ class AuthenticatedTrainApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
 
 
-class AdminMovieApiTests(TestCase):
+class AdminTrainTypeApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user(
             "admin@admin.com", "testpass", is_staff=True
         )
         self.client.force_authenticate(self.user)
-        self.train_type1 = TrainType.objects.create(name="Test_train_type_1")
-        self.train_type2 = TrainType.objects.create(name="Test_train_type_2")
 
     def test_create_train_type(self):
         payload = {
-            "name": "Sample_train_type",
+            "name": "New_train_type",
         }
         res = self.client.post(TRAIN_TYPE_URL, payload)
 
