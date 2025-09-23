@@ -140,11 +140,11 @@ class JourneySerializer(serializers.ModelSerializer):
 
 class JourneyListSerializer(JourneySerializer):
     source_name = serializers.CharField(
-        source="route.station.name",
+        source="route.source.name",
         read_only=True
     )
     destination_name = serializers.CharField(
-        source="route.station.name",
+        source="route.destination.name",
         read_only=True
     )
     train_name = serializers.CharField(
