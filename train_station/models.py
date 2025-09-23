@@ -33,6 +33,7 @@ class Train(models.Model):
     places_in_cargo = models.IntegerField()
     train_type = models.ForeignKey(
         TrainType,
+        blank=True,
         related_name="trains",
         on_delete=models.CASCADE
     )
