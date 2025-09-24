@@ -93,3 +93,8 @@ You will receive access and refresh tokens to authenticate API requests.
 - **Crew Management**: Manage train crew members who are assigned to specific journeys.
 - **Ticket Booking System**: Book tickets for journeys, including cargo and seating selection.
 - **User Authentication**: Users can register, log in, and manage orders.
+
+
+## Database Structure
+
+![train_station_api_structure.png](static_docs/train_station_api_structure.png)
