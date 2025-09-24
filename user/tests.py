@@ -12,7 +12,6 @@ class UserApiTest(TestCase):
     def setUp(self) -> None:
         self.client = APIClient()
 
-
     def test_create_and_manage_user(self) -> None:
         payload = {
             "email": "test@user.com",
