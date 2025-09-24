@@ -123,7 +123,7 @@ AUTH_USER_MODEL = "user.User"
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "Europe/Kiev"
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -149,12 +149,12 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS":
         "train_station.pagination.TrainStationPagination",
     "DEFAULT_THROTTLE_CLASSES": [
-       "rest_framework.throttling.AnonRateThrottle",
-       "rest_framework.throttling.UserRateThrottle"
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle"
     ],
     "DEFAULT_THROTTLE_RATES": {
-       "anon": "100/minute",
-       "user": "300/minute"
+        "anon": "100/minute",
+        "user": "300/minute"
     },
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
